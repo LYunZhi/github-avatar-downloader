@@ -32,7 +32,7 @@ function downloadImageByURL(url, filePath) {
   .pipe(fs.createWriteStream(filePath))
 }
 
-if (avatarSource[0] || avatarSource[1] === undefined) {
+if (!avatarSource[0] || !avatarSource[1]) {
   console.log('Please input both a owner and repo...')
 } else {
   getRepoContributors(avatarSource[0], avatarSource[1], function(err, result) {
