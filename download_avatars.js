@@ -3,8 +3,19 @@ var githubToken = require('./secrets.js')
 var fs = require('fs')
 
 var avatarSource = process.argv.slice(2)
+var avatarPath = '/avatars'
 
 console.log('Welcome to the GitHub Avatar Downloader!');
+
+if (!fs.existsSync(__dirname + avatarPath)) {
+  fs.mkdir(__dirname + avatarPath, function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('Folder sucessfully created!')
+    }
+  })
+}
 
 function getRepoContributors(repoOwner, repoName, cb) {
   var options = {
@@ -26,9 +37,6 @@ function downloadImageByURL(url, filePath) {
   .on('err', function(err) {
     throw err
   })
-  .on('response', function(response) {
-    console.log('Downloading Image')
-  })
   .pipe(fs.createWriteStream(filePath))
 }
 
@@ -36,10 +44,13 @@ if (!avatarSource[0] || !avatarSource[1]) {
   console.log('Please input both a owner and repo...')
 } else {
   getRepoContributors(avatarSource[0], avatarSource[1], function(err, result) {
-    console.log("Errors:", err);
-    for (var i = 0; i < result.length; i++) {
-      downloadImageByURL(result[i].avatar_url, 'avatars/' + result[i].login + '.jpg')
+    if (err) {
+      console.log("Errors:", err);
     }
+    for (var i = 0; i < result.length; i++) {
+      downloadImageByURL(result[i].avatar_url, 'avatars/' + result[i].login + '.png')
+    }
+    console.log('Program finished!')
   });
 }
 
