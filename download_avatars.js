@@ -39,7 +39,6 @@ if (!avatarSource[0] || !avatarSource[1]) {
     console.log("Errors:", err);
     for (var i = 0; i < result.length; i++) {
       downloadImageByURL(result[i].avatar_url, 'avatars/' + result[i].login + '.jpg')
-      console.log(result[i].avatar_url)
     }
   });
 }
