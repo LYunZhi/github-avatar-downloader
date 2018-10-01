@@ -10,13 +10,21 @@ function getRepoContributors(repoOwner, repoName, cb) {
       'User-Agent': 'request',
       'Authorization': githubToken
     }
+  }
 
-  request(url, function(err, res, body) {
-    cb(err, body)
+  request(options, function(err, res, body) {
+    var object = JSON.parse(body)
+    cb(err, object)
   })
+}
+
+function downloadImageByURL(url, filePath) {
+  // ...
 }
 
 getRepoContributors("jquery", "jquery", function(err, result) {
   console.log("Errors:", err);
-  console.log("Result:", result);
+  for (var i = 0; i < result.length; i++) {
+    console.log(result[i].avatar_url)
+  }
 });
