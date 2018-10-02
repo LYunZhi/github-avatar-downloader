@@ -1,3 +1,4 @@
+
 var request = require('request')
 var githubToken = require('./secrets.js')
 var fs = require('fs')
@@ -33,11 +34,12 @@ function getRepoContributors(repoOwner, repoName, cb) {
 }
 
 function downloadImageByURL(url, filePath) {
-  request.get(url)
-  .on('err', function(err) {
-    throw err
-  })
-  .pipe(fs.createWriteStream(filePath))
+  request(url).pipe(fs.createWriteStream(filePath))
+  // request.get(url)
+  // .on('err', function(err) {
+  //   throw err
+  // })
+  // .pipe(fs.createWriteStream(filePath))
 }
 
 if (!avatarSource[0] || !avatarSource[1]) {
@@ -53,5 +55,3 @@ if (!avatarSource[0] || !avatarSource[1]) {
     console.log('Program finished!')
   });
 }
-
-
